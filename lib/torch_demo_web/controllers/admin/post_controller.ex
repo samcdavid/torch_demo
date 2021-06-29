@@ -4,15 +4,14 @@ defmodule TorchDemoWeb.Admin.PostController do
   alias TorchDemo.Blog
   alias TorchDemo.Blog.Post
 
-  
   plug(:put_root_layout, {TorchDemoWeb.LayoutView, "torch.html"})
   plug(:put_layout, false)
-  
 
   def index(conn, params) do
     case Blog.paginate_posts(params) do
       {:ok, assigns} ->
         render(conn, "index.html", assigns)
+
       error ->
         conn
         |> put_flash(:error, "There was an error rendering Posts. #{inspect(error)}")
@@ -31,6 +30,7 @@ defmodule TorchDemoWeb.Admin.PostController do
         conn
         |> put_flash(:info, "Post created successfully.")
         |> redirect(to: Routes.admin_post_path(conn, :show, post))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -55,6 +55,7 @@ defmodule TorchDemoWeb.Admin.PostController do
         conn
         |> put_flash(:info, "Post updated successfully.")
         |> redirect(to: Routes.admin_post_path(conn, :show, post))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", post: post, changeset: changeset)
     end

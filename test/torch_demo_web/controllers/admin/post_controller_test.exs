@@ -4,7 +4,11 @@ defmodule TorchDemoWeb.Admin.PostControllerTest do
   alias TorchDemo.Blog
 
   @create_attrs %{body: "some body", publish_at: "2010-04-17T14:00:00Z", title: "some title"}
-  @update_attrs %{body: "some updated body", publish_at: "2011-05-18T15:01:01Z", title: "some updated title"}
+  @update_attrs %{
+    body: "some updated body",
+    publish_at: "2011-05-18T15:01:01Z",
+    title: "some updated title"
+  }
   @invalid_attrs %{body: nil, publish_at: nil, title: nil}
 
   def fixture(:post) do
@@ -14,14 +18,14 @@ defmodule TorchDemoWeb.Admin.PostControllerTest do
 
   describe "index" do
     test "lists all posts", %{conn: conn} do
-      conn = get conn, Routes.admin_post_path(conn, :index)
+      conn = get(conn, Routes.admin_post_path(conn, :index))
       assert html_response(conn, 200) =~ "Posts"
     end
   end
 
   describe "new post" do
     test "renders form", %{conn: conn} do
-      conn = get conn, Routes.admin_post_path(conn, :new)
+      conn = get(conn, Routes.admin_post_path(conn, :new))
       assert html_response(conn, 200) =~ "New Post"
     end
   end
@@ -33,7 +37,7 @@ defmodule TorchDemoWeb.Admin.PostControllerTest do
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.admin_post_path(conn, :show, id)
 
-      conn = get conn, Routes.admin_post_path(conn, :show, id)
+      conn = get(conn, Routes.admin_post_path(conn, :show, id))
       assert html_response(conn, 200) =~ "Post Details"
     end
 
@@ -47,7 +51,7 @@ defmodule TorchDemoWeb.Admin.PostControllerTest do
     setup [:create_post]
 
     test "renders form for editing chosen post", %{conn: conn, post: post} do
-      conn = get conn, Routes.admin_post_path(conn, :edit, post)
+      conn = get(conn, Routes.admin_post_path(conn, :edit, post))
       assert html_response(conn, 200) =~ "Edit Post"
     end
   end
@@ -59,7 +63,7 @@ defmodule TorchDemoWeb.Admin.PostControllerTest do
       conn = put conn, Routes.admin_post_path(conn, :update, post), post: @update_attrs
       assert redirected_to(conn) == Routes.admin_post_path(conn, :show, post)
 
-      conn = get conn, Routes.admin_post_path(conn, :show, post)
+      conn = get(conn, Routes.admin_post_path(conn, :show, post))
       assert html_response(conn, 200) =~ "some updated body"
     end
 
@@ -73,10 +77,11 @@ defmodule TorchDemoWeb.Admin.PostControllerTest do
     setup [:create_post]
 
     test "deletes chosen post", %{conn: conn, post: post} do
-      conn = delete conn, Routes.admin_post_path(conn, :delete, post)
+      conn = delete(conn, Routes.admin_post_path(conn, :delete, post))
       assert redirected_to(conn) == Routes.admin_post_path(conn, :index)
+
       assert_error_sent 404, fn ->
-        get conn, Routes.admin_post_path(conn, :show, post)
+        get(conn, Routes.admin_post_path(conn, :show, post))
       end
     end
   end

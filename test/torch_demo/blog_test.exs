@@ -7,7 +7,11 @@ defmodule TorchDemo.BlogTest do
     alias TorchDemo.Blog.Post
 
     @valid_attrs %{body: "some body", publish_at: "2010-04-17T14:00:00Z", title: "some title"}
-    @update_attrs %{body: "some updated body", publish_at: "2011-05-18T15:01:01Z", title: "some updated title"}
+    @update_attrs %{
+      body: "some updated body",
+      publish_at: "2011-05-18T15:01:01Z",
+      title: "some updated title"
+    }
     @invalid_attrs %{body: nil, publish_at: nil, title: nil}
 
     def post_fixture(attrs \\ %{}) do
